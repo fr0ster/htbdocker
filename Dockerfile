@@ -5,11 +5,10 @@ LABEL maintainer="Alex Kislitsa"
 
 # Radare version
 ARG R2_VERSION=master
-ARG R2_TAG=5.7.0
+ARG R2_TAG=5.9.8
 
 ENV R2_VERSION ${R2_VERSION}
 ENV R2_TAG ${R2_TAG}
-# ENV R2_PIPE_PY_VERSION ${R2_PIPE_PY_VERSION}
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -67,7 +66,7 @@ RUN \
   git checkout -b ${R2_TAG} && \
   ./sys/install.sh --install && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-  r2pm init && r2pm update && r2pm -gi r2ghidra-sleigh && r2pm -gi r2ghidra && r2pm -gi r2frida
+  r2pm -U && r2pm -gi r2ghidra-sleigh && r2pm -gi r2ghidra && r2pm -gi r2frida
 
 FROM kalilinux/kali-rolling:latest as runner
 
@@ -76,7 +75,7 @@ LABEL maintainer="Alex Kislitsa"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV TZ UTC
+ENV TZ=UTC
 
 COPY --from=builder /usr/local /usr/local
 
@@ -106,4 +105,4 @@ RUN locale-gen
 # Initilise base user
 USER adam
 WORKDIR /home/adam
-ENV HOME /home/adam
+ENV HOME=/home/adam

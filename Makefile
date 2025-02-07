@@ -9,7 +9,7 @@ help: ## This help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 build: ## Common way for images building
-		docker build -t luckycatalex/kalilinux:${VERSION} .
+		docker build -t luckycatalex/htb-box:${VERSION} .
 
 run: ## Common way for images runnig
-	docker run --rm -v $(work_dir):/work_dir -it luckycatalex/kalilinux:${VERSION} bash
+	docker run --rm -v $(work_dir):/work_dir -it luckycatalex/htb-box:${VERSION} bash
